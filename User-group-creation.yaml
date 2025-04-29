@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  EmailAddress:
+    Type: String
+    Description: Email address of the IAM user
+
+Resources:
+  ContractorsGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: Contractors
+      Policies:
+        - PolicyName: ContractorsPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "ec2:*"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - "s3:Get*"
+                  - "s3:List*"
+                  - "s3:Describe*"
+                  - "s3-object-lambda:Get*"
+                  - "s3-object-lambda:List*"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - "eks:*"
+                Resource: "*"
+        - PolicyName: "EnforceMFA"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Sid: "AllowViewAccountInfo"
+                Effect: "Allow"
+                Action:
+                  - "iam:GetAccountPasswordPolicy"
+                  - "iam:ListVirtualMFADevices"
+                Resource: "*"
+              - Sid: "AllowManageOwnPasswords"
+                Effect: "Allow"
+                Action:
+                  - "iam:ChangePassword"
+                  - "iam:GetUser"
+                Resource: "arn:aws:iam::*:user/${aws:username}"
+              - Sid: "AllowManageOwnVirtualMFADevice"
+                Effect: "Allow"
+                Action:
+                  - "iam:CreateVirtualMFADevice"
+                Resource: "arn:aws:iam::*:mfa/*"
+              - Sid: "AllowManageOwnUserMFA"
+                Effect: "Allow"
+                Action:
+                  - "iam:DeactivateMFADevice"
+                  - "iam:EnableMFADevice"
+                  - "iam:ListMFADevices"
+                  - "iam:ResyncMFADevice"
+                Resource: "arn:aws:iam::*:user/${aws:username}"
+              - Sid: "DenyAllExceptListedIfNoMFA"
+                Effect: "Deny"
+                NotAction:
+                  - "iam:CreateVirtualMFADevice"
+                  - "iam:EnableMFADevice"
+                  - "iam:GetUser"
+                  - "iam:GetMFADevice"
+                  - "iam:ListMFADevices"
+                  - "iam:ListVirtualMFADevices"
+                  - "iam:ResyncMFADevice"
+                  - "sts:GetSessionToken"
+                  - "iam:ChangePassword"
+                  - "iam:CreateLoginProfile"
+                  - "iam:ListUsers"
+                Resource: "*"
+                Condition:
+                  BoolIfExists:
+                    "aws:MultiFactorAuthPresent": "false"
+  IAMUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref EmailAddress
+      Groups:
+        - !Ref ContractorsGroup
+      LoginProfile:
+        Password: !Sub "${EmailAddress}_TmpPass123!"
+        PasswordResetRequired: true
+        
+
