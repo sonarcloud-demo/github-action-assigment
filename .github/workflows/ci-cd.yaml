@@ -47,6 +47,10 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+      - name: Check gradle version
+        run: gradle --version
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew 
       - name: Build with Gradle
         run: ./gradlew build
       - name: Build and tag Docker image
