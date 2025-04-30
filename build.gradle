@@ -29,6 +29,3 @@ sonar {
 test {
     useJUnitPlatform()
 }
-application {
-    mainClass = 'com.example.HelloWorld'
-}
