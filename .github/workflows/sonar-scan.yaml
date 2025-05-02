@@ -1,14 +1,8 @@
-name: java-gradle-ci
+name: sonar-scan
 
 on:
   workflow_call:
-    inputs:
-      java-version:
-        required: true
-        type: string
-    gradle-version:
-        required: true
-        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
