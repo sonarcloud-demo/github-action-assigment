@@ -55,16 +55,27 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.sonar-token }}
         run: ./gradlew build sonar --info
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: ${{ matrix.language }}
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
-        with:
-          category: "/language:${{matrix.language}}"
       - name: Build and tag Docker image
         run: |
           docker build -t ${{ secrets.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }} .
           echo "${{ secrets.docker-token }}" | docker login -u "${{ secrets.docker-username }}" --password-stdin
           docker push ${{ secrets.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }}
+  Code-scanning-analyze:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+      - name: CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          languages: 'java, kotlin'
