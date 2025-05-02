@@ -16,15 +16,13 @@ on:
       docker-tag:
         required: true
         type: string
+    secrets:
       docker-username:
         required: true
-        type: string
       sonar-token:
         required: true
-        type: string
       docker-token:
-        required: true
-        type: string       
+        required: true     
 
 jobs:
   build:
@@ -54,10 +52,10 @@ jobs:
           path: app.jar
       - name: SonarCloud Scan
         env:
-          SONAR_TOKEN: ${{ inputs.sonar-token }}
+          SONAR_TOKEN: ${{ secrets.sonar-token }}
         run: ./gradlew build sonar --info
       - name: Build and tag Docker image
         run: |
-          docker build -t ${{ inputs.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }} .
-          echo "${{ inputs.docker-token }}" | docker login -u "${{ inputs.docker-username }}" --password-stdin
-          docker push ${{ inputs.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }}
+          docker build -t ${{ secrets.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }} .
+          echo "${{ secrets.docker-token }}" | docker login -u "${{ secrets.docker-username }}" --password-stdin
+          docker push ${{ secrets.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }}
