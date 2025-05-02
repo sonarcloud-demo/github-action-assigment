@@ -14,7 +14,7 @@ jobs:
     with:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version
-      docker-repository-name: '17' # Provide applicaiton name for repository
+      docker-repository-name: 'hello-wrold' # Provide applicaiton name for repository
       docker-tag: 'v1' # Provide Gradle version
   
 
