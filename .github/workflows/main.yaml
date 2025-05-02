@@ -15,8 +15,6 @@ jobs:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version
   call-reusable-workflow:
-    uses: ./.github/workflows/sonar-scan.yaml  
-  call-reusable-workflow:
     uses: ./.github/workflows/java-gradle-ci.yaml
     with:
       docker-repository-name: '17' # Provide applicaiton name for repository
