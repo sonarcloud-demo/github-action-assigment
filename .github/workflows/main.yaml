@@ -16,6 +16,13 @@ jobs:
       gradle-version: '8.5' # Provide Gradle version
       docker-repository-name: 'hello-wrold' # Provide applicaiton name for repository
       docker-tag: 'v1' # Provide Gradle version
+      docker-username: '${{ secrets.DOCKERHUB_USERNAME }}'
+      sonar-token: '${{ secrets.SONAR_TOKEN }}'
+      docker-token: '${{ secrets.DOCKERHUB_TOKEN }}'
+      
+
+
+      
   
 
     
