@@ -17,7 +17,7 @@ jobs:
     uses: ./.github/workflows/sonar-scan.yml
     uses: ./.github/workflows/docker-build.yml
     with:
-      docker-repository-name: 'hello-world' "Provide application name to push docker image"
+      docker-repository-name: 'hello-world' #"Provide application name to push docker image"
       docker-tag: 'v1'  # Docker Tag to define applicaiotn versions.
 
 
