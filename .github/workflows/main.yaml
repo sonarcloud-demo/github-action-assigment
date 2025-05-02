@@ -15,13 +15,15 @@ jobs:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version
       docker-repository-name: 'hello-wrold' # Provide applicaiton name for repository
-      docker-tag: 'v1' # Provide Gradle version
+      docker-tag: 'v2' # Provide Gradle version
     secrets:
       docker-username: ${{ secrets.DOCKERHUB_USERNAME }}
       sonar-token: ${{ secrets.SONAR_TOKEN }}
       docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
-
-
+      sonarcloudorganization: ${{ secrets.SONARCLOUD_ORGANIZATION }}
+      sonarcloudtoken: ${{ secrets.SONAR_TOKEN }}
+      sonarcloudprojectkey: ${{ secrets.SONARCLOUD_PROJECT_KEY }}
+      sonarhosturl: ${{ secrets.SONARCLOUD_HOST_URL }}
 
       
   

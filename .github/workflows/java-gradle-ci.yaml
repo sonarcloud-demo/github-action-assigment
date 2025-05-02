@@ -22,7 +22,19 @@ on:
       sonar-token:
         required: true
       docker-token:
-        required: true     
+        required: true
+      sonarcloudorganization:
+        required: true
+      sonarcloudtoken:
+        required: true
+      sonarcloudprojectkey:
+        required: true
+      sonarhosturl:
+        required: true 
+      
+            
+      
+      
 
 jobs:
   build:
@@ -54,6 +66,19 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.sonar-token }}
         run: ./gradlew build sonar --info
+  Sonar-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarCloud Scan and push
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          sonarCloudOrganization: ${{ secrets.sonarcloudorganization }}
+          sonarCloudToken: ${{ secrets.sonarcloudtoken }}
+          sonarCloudProjectKey: ${{ secrets.sonarcloudprojectkey }}
+          sonarHostUrl: ${{ secrets.sonarhosturl}}
+  Docker-Build-Push:
+    runs-on: ubuntu-latest
+    steps:
       - name: Build and tag Docker image
         run: |
           docker build -t ${{ secrets.docker-username }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }} .
