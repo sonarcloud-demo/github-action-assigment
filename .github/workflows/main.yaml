@@ -11,12 +11,11 @@ on:
 jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/java-gradle-ci.yaml
+    uses: ./.github/workflows/sonar-scan.yaml
+    uses: ./.github/workflows/java-gradle-ci.yaml
     with:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version
-  call-reusable-workflow:
-    uses: ./.github/workflows/java-gradle-ci.yaml
-    with:
       docker-repository-name: '17' # Provide applicaiton name for repository
       docker-tag: 'v1' # Provide Gradle version
   
