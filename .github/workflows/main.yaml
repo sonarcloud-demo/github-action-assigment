@@ -21,7 +21,6 @@ jobs:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
       docker-token: ${{ secrets.DOCKERHUB_TOKEN }}
       sonarcloudorganization: ${{ secrets.SONARCLOUD_ORGANIZATION }}
-      sonarcloudtoken: ${{ secrets.SONAR_TOKEN }}
       sonarcloudprojectkey: ${{ secrets.SONARCLOUD_PROJECT_KEY }}
       sonarhosturl: ${{ secrets.SONARCLOUD_HOST_URL }}
 
