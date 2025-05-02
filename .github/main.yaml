@@ -1,0 +1,21 @@
+name: Main
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/java-gradle-ci.yml
+    with:
+      java-version: '17'
+      gradle-version: '8.5'  # Change to 'poetry' if you are using Poetry
+      install-args: ''  # Add additional install args if needed
+    uses: ./.github/workflows/sonar-scan.yml
+    uses: ./.github/workflows/docker-build.yml
+    
+
+    

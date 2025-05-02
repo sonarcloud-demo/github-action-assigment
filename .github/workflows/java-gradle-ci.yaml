@@ -1,0 +1,8 @@
+name: java-gradle-ci
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: true
+        type: string

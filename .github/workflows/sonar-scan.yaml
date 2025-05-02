@@ -1,0 +1,20 @@
+name: java-gradle-ci
+
+on:
+  workflow_call:
+    inputs:
+      java-version:
+        required: true
+        type: string
+    gradle-version:
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar --info
+
