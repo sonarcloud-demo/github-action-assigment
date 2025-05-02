@@ -10,14 +10,14 @@ on:
 
 jobs:
   call-reusable-workflow:
-    uses: ./.github/workflows/java-gradle-ci.yml
+    uses: ./.github/workflows/java-gradle-ci.yaml
     with:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version
-    uses: ./.github/workflows/sonar-scan.yml
-    uses: ./.github/workflows/docker-build.yml
+    uses: ./.github/workflows/sonar-scan.yaml
+    uses: ./.github/workflows/docker-build.yaml
     with:
-      docker-repository-name: 'hello-world' #"Provide application name to push docker image"
+      docker-repository-name: 'hello-world' #Provide application name to push docker image
       docker-tag: 'v1'  # Docker Tag to define applicaiotn versions.
 
 
