@@ -11,8 +11,6 @@ on:
 jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/java-gradle-ci.yaml
-    uses: ./.github/workflows/sonar-scan.yaml
-    uses: ./.github/workflows/java-gradle-ci.yaml
     with:
       java-version: '17' # Provide java version
       gradle-version: '8.5' # Provide Gradle version

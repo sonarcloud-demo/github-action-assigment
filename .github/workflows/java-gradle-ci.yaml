@@ -10,6 +10,12 @@ on:
       gradle-version:
         required: true
         type: string
+      docker-repository-name:
+        required: true
+        type: string
+      docker-tag:
+        required: true
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -36,3 +42,12 @@ jobs:
         with:
           name: jar-file
           path: app.jar
+      - name: SonarCloud Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar --info
+      - name: Build and tag Docker image
+        run: |
+          docker build -t dghogare/hello-world:latest .
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.docker-repository-name }}:${{ inputs.docker-tag }}
